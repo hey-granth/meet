@@ -1,0 +1,10 @@
+.venv
+.env
+.idea
+.sqlite3
+.db
+# Python cache files
+__pycache__/
+# Byte-compiled files
+*.py[cod]
+# Distribution / packaging
