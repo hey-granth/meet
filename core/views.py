@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.status import HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_201_CREATED
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from .models import Room
 
 
 @api_view(['GET'])
@@ -23,6 +24,9 @@ def auth_view(request) -> Response:
 
 
 class RegisterView(APIView):
+    """
+    View to handle user registration.
+    """
     def post(self, request) -> Response:
         """
         Handle user registration.
@@ -40,6 +44,9 @@ class RegisterView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
+    """
+    View to handle user login.
+    """
     def post(self, request) -> Response:
         """
         Handle user login.
@@ -56,6 +63,9 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
+    """
+    View to handle user logout.
+    """
     def post(self, request) -> Response:
         """
         Handle user logout.
@@ -65,3 +75,25 @@ class LogoutView(APIView):
             return Response({"message": "Logout successful."}, status=HTTP_200_OK)
 
         return Response({"error": "User is not authenticated."}, status=HTTP_401_UNAUTHORIZED)
+
+
+@permission_classes([IsAuthenticated])
+class CreateRoomView(APIView):
+    """
+    View to create a new room.
+    """
+    def post(self, request) -> Response:
+        """
+        Create a new room.
+        """
+        user: User = request.user
+        code: str = request.data.get("code")
+
+        if not code:
+            return Response({"error": "Room code is required."}, status=HTTP_400_BAD_REQUEST)
+
+        if Room.objects.filter(code=code).exists():
+            return Response({"error": "Room code already exists."}, status=HTTP_400_BAD_REQUEST)
+
+        room: Room = Room.objects.create(code=code, host=user)
+        return Response({"message": f"Room {room.code} created successfully."}, status=HTTP_201_CREATED)
