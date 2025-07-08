@@ -6,6 +6,7 @@ import string
 import random
 
 
+# LiteralString is used to indicate that the string is a literal and not a regular string. helps with type checking, and saves from injection attacks
 def generate_code(length=6) -> LiteralString:
     characters = string.ascii_letters + string.digits
     while True:
@@ -25,7 +26,19 @@ class Room(models.Model):
         super().save(*args, **kwargs)
 
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Room {self.code} hosted by {self.host.username}"
 
 
+class RoomUser(models.Model):
+    # related_name ref -> https://docs.djangoproject.com/en/5.2/ref/models/fields/#django.db.models.ForeignKey.related_name
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name="participants")    # here, related_name basically tells which user has joined this specific room.
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="joined_rooms")   # related_name allows reverse lookup from User to RoomUser, basically tells which rooms are joined by that user.
+    joined_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.user.username} in {self.room.code}"
+
+    # This ensures that a user can only join a room once
+    class Meta:
+        unique_together = ('room', 'user')
