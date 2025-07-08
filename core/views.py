@@ -2,7 +2,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from typing import Dict
+from typing import Dict, List
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.views import APIView
@@ -140,3 +140,27 @@ class JoinRoomView(APIView):
         room.participants.create(user=user)     # could do this coz i used reverse relationship in RoomUser model (related_name)
         return Response({"message": f"You have joined room {room.code}."}, status=HTTP_200_OK)
 
+
+@permission_classes([IsAuthenticated])
+class RoomDetailView(APIView):
+    """
+    View to get details of a room.
+    """
+    def get(self, request, code: str) -> Response:
+        """
+        Get details of a room by code.
+        :param code: str
+        :param request: {code}
+        :return: Response with room details or error message
+        """
+        try:
+            room: Room = Room.objects.get(code=code)
+            participants = room.participants.all()
+            participant_usernames: List[str] = [participant.user.username for participant in participants]
+            return Response({
+                "code": room.code,
+                "host": room.host.username,
+                "participants": participant_usernames
+            }, status=HTTP_200_OK)
+        except Room.DoesNotExist:
+            return Response({"error": "Room does not exist."}, status=HTTP_404_NOT_FOUND)

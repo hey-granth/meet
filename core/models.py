@@ -42,3 +42,4 @@ class RoomUser(models.Model):
     # This ensures that a user can only join a room once
     class Meta:
         unique_together = ('room', 'user')
+
