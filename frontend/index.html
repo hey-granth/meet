@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Chat App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- Loading Spinner -->
+<div id="loading" class="loading hidden">
+    <div class="spinner"></div>
+</div>
+
+<!-- Auth Screen -->
+<div id="auth-screen" class="screen">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Room Chat</h1>
+            <p>Connect and chat in real-time</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button id="login-tab" class="tab-btn active">Login</button>
+            <button id="register-tab" class="tab-btn">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form">
+            <div class="form-group">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" class="auth-form hidden">
+            <div class="form-group">
+                <label for="register-username">Username</label>
+                <input type="text" id="register-username" required>
+            </div>
+            <div class="form-group">
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password">Password</label>
+                <input type="password" id="register-password" required>
+            </div>
+            <div class="form-group">
+                <label for="register-password2">Confirm Password</label>
+                <input type="password" id="register-password2" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+
+        <div id="auth-error" class="error-message hidden"></div>
+    </div>
+</div>
+
+<!-- Dashboard Screen -->
+<div id="dashboard-screen" class="screen hidden">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1>Welcome to Room Chat</h1>
+            <button id="logout-btn" class="btn btn-secondary">Logout</button>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="action-card">
+                <h2>Create Room</h2>
+                <p>Start a new chat room and invite others</p>
+                <form id="create-room-form">
+                    <div class="form-group">
+                        <label for="room-name">Room Name</label>
+                        <input type="text" id="room-name" placeholder="Enter room name" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Room</button>
+                </form>
+            </div>
+
+            <div class="action-card">
+                <h2>Join Room</h2>
+                <p>Enter a room code to join an existing room</p>
+                <form id="join-room-form">
+                    <div class="form-group">
+                        <label for="room-code">Room Code</label>
+                        <input type="text" id="room-code" placeholder="Enter room code" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Join Room</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="dashboard-error" class="error-message hidden"></div>
+    </div>
+</div>
+
+<!-- Room Screen -->
+<div id="room-screen" class="screen hidden">
+    <div class="room-container">
+        <div class="room-header">
+            <div class="room-info">
+                <h2 id="room-title">Room Name</h2>
+                <span id="room-code-display" class="room-code">Code: </span>
+            </div>
+            <div class="room-actions">
+                <button id="copy-code-btn" class="btn btn-secondary">Copy Code</button>
+                <button id="leave-room-btn" class="btn btn-danger">Leave Room</button>
+            </div>
+        </div>
+
+        <div class="room-content">
+            <div class="messages-container">
+                <div id="messages" class="messages"></div>
+            </div>
+
+            <div class="message-input-container">
+                <form id="message-form">
+                    <input type="text" id="message-input" placeholder="Type your message..." required>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="connection-status">
+            <span id="connection-indicator" class="status-indicator"></span>
+            <span id="connection-text">Connecting...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications -->
+<div id="toast-container" class="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>

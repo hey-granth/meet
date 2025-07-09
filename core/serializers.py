@@ -6,15 +6,15 @@ from .models import Room, RoomUser
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = ['code', 'host', 'created_at']
-        read_only_fields = ['code', 'host', 'created_at']
+        fields = ["code", "host", "created_at"]
+        read_only_fields = ["code", "host", "created_at"]
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
-        read_only_fields = ['id', 'email']
+        fields = ["id", "username", "email"]
+        read_only_fields = ["id", "email"]
 
 
 class RoomUserSerializer(serializers.ModelSerializer):
@@ -23,5 +23,5 @@ class RoomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RoomUser
-        fields = ['room', 'user', 'joined_at']
-        read_only_fields = ['room', 'user', 'joined_at']
+        fields = ["room", "user", "joined_at"]
+        read_only_fields = ["room", "user", "joined_at"]
