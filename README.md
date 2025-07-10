@@ -55,8 +55,8 @@ This project is a minimal backend API for a Google Meet clone using Django, Djan
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/your-username/google-meet-clone-backend.git
-cd google-meet-clone-backend
+git clone https://github.com/hey-granth/meet.git
+cd meet
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
